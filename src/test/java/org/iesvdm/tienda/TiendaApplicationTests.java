@@ -48,6 +48,7 @@ class TiendaApplicationTests {
 	void test1() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream().map(p -> "nombre = " + p.getNombre() + " , precio = " + p.getPrecio());
 	}
 	
 	
@@ -67,6 +68,8 @@ class TiendaApplicationTests {
 	void test3() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream().map(prod -> String.format("Nombre: %s, Precio: %.2f", prod.getNombre().toUpperCase(), prod.getPrecio())).forEach(System.out::println);
+
 	}
 	
 	/**
@@ -76,6 +79,7 @@ class TiendaApplicationTests {
 	void test4() {
 		var listFabs = fabRepo.findAll();
 		//TODO
+		listFabs.stream().map(fab -> String.format("Nombre: %s, Dos carácteres en mayúsculas: %s", fab.getNombre(), fab.getNombre().substring(0, 2).toUpperCase())).forEach(System.out::println);
 	}
 	
 	/**
