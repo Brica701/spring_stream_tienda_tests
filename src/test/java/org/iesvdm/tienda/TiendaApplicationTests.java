@@ -112,6 +112,9 @@ class TiendaApplicationTests {
 	void test7() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream().map(Producto::getNombre).sorted(Comparator.reverseOrder()).forEach(System.out::println);
+		listProds.stream().map(Producto::getNombre).sorted(Comparator.reverseOrder()).forEach(System.out::println);
+
 	}
 	
 	/**
