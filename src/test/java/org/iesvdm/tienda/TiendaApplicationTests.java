@@ -1,5 +1,6 @@
 package org.iesvdm.tienda;
 
+import org.apache.logging.log4j.util.PropertySource;
 import org.iesvdm.tienda.modelo.Fabricante;
 import org.iesvdm.tienda.modelo.Producto;
 import org.iesvdm.tienda.repository.FabricanteRepository;
@@ -7,6 +8,8 @@ import org.iesvdm.tienda.repository.ProductoRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -88,7 +91,8 @@ class TiendaApplicationTests {
 	@Test
 	void test5() {
 		var listFabs = fabRepo.findAll();
-		//TODO		
+		//TODO
+		listFabs.stream().map(Fabricante::getNombre).forEach(System.out::println);
 	}
 	
 	/**
@@ -98,6 +102,7 @@ class TiendaApplicationTests {
 	void test6() {
 		var listFabs = fabRepo.findAll();
 		//TODO
+		listFabs.stream().map(Fabricante::getNombre).sorted(Comparator.reverseOrder()).forEach(System.out::println);
 	}
 	
 	/**
