@@ -62,6 +62,12 @@ class TiendaApplicationTests {
 	void test2() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		final double tasaConversion = 1.1;
+		listProds.stream()
+				.forEach(producto -> {
+					double precioDolares = producto.getPrecio() * tasaConversion;
+					System.out.println("Nombre: " + producto.getNombre() + ", Precio en Dólares: " + precioDolares);
+				});
 	}
 	
 	/**
@@ -147,7 +153,6 @@ class TiendaApplicationTests {
 				.skip(3)
 				.limit(2)
 				.toList();
-
 		resultFabs.stream()
 				.map(Fabricante::getNombre)
 				.forEach(System.out::println);
@@ -160,6 +165,12 @@ class TiendaApplicationTests {
 	void test10() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+				.min((p1, p2) -> Double.compare(p1.getPrecio(), p2.getPrecio())) // Encuentra el más barato
+				.map(producto -> "Producto más barato: " + producto.getNombre() +
+						", Precio: " + producto.getPrecio()) // Formatear salida
+				.ifPresent(System.out::println); // Imprimir el resultado, si está presente
+
 	}
 	
 	/**
@@ -169,6 +180,11 @@ class TiendaApplicationTests {
 	void test11() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+				.max((p1, p2) -> Double.compare(p1.getPrecio(), p2.getPrecio())) //Producto mas caro
+				.map(producto -> "Producto más caro: " + producto.getNombre() +
+						", Precio: " + producto.getPrecio())//Formatear la salida
+						.ifPresent(System.out::println); //Damos el resultado
 	}
 	
 	/**
@@ -179,6 +195,9 @@ class TiendaApplicationTests {
 	void test12() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+
+
 	}
 	
 	/**
@@ -242,7 +261,8 @@ class TiendaApplicationTests {
 	@Test
 	void test19() {
 		var listFabs = fabRepo.findAll();
-		//TODOS
+		//TODO
+
 	}
 	
 	/**
@@ -252,6 +272,9 @@ class TiendaApplicationTests {
 	void test20() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		prodRepo.findAll().stream()
+				.filter(p -> p.getNombre().contains("Potátil") || p.getNombre().contains("Potatil") )
+				.forEach(System.out::println);
 	}
 	
 	/**
