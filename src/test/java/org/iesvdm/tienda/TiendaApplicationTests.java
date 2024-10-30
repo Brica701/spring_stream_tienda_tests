@@ -248,7 +248,9 @@ class TiendaApplicationTests {
 	void test16() {
 		var listProds = prodRepo.findAll();
 		//TODO
-
+		listProds.stream()
+				.filter(producto -> producto.getPrecio() >200 && producto.getFabricante().getCodigo() == 6)
+				.forEach(producto -> System.out.println(producto.getNombre() + " - Precio: " + producto.getPrecio()));
 	}
 	
 	/**
