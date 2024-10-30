@@ -196,6 +196,9 @@ class TiendaApplicationTests {
 		var listProds = prodRepo.findAll();
 		//TODO
 		listProds.stream()
+				.filter(producto -> producto.getFabricante().getCodigo() == 2) // Filtrar por código de fabricante
+				.map(Producto::getNombre) // Obtener el nombre del producto
+				.forEach(System.out::println); // Imprimir cada nombre
 
 
 	}
@@ -207,6 +210,10 @@ class TiendaApplicationTests {
 	void test13() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+				.filter(producto -> producto.getPrecio() <= 120) // Filtrar por precio
+				.map(Producto::getNombre) // Obtener el nombre del producto
+				.forEach(System.out::println); // Imprimir cada nombre
 	}
 	
 	/**
@@ -216,6 +223,10 @@ class TiendaApplicationTests {
 	void test14() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+				.filter(producto -> producto.getPrecio() >= 400) //Filtrar por precio
+				.map(Producto::getNombre) //Obtener el nombre del producto
+				.forEach(System.out::println);//Imprimir resultadp
 	}
 	
 	/**
@@ -225,6 +236,9 @@ class TiendaApplicationTests {
 	void test15() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+				.filter(producto -> producto.getPrecio() >= 80 && producto.getPrecio() <= 300) // Filtrar por rango de precio
+				.forEach(producto -> System.out.println(producto.getNombre() + " - Precio: " + producto.getPrecio())); // Imprimir nombre y precio
 	}
 	
 	/**
@@ -234,6 +248,7 @@ class TiendaApplicationTests {
 	void test16() {
 		var listProds = prodRepo.findAll();
 		//TODO
+
 	}
 	
 	/**
