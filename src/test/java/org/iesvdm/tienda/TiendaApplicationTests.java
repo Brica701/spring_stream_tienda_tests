@@ -112,8 +112,14 @@ class TiendaApplicationTests {
 	void test7() {
 		var listProds = prodRepo.findAll();
 		//TODO
-		listProds.stream().map(Producto::getNombre).sorted(Comparator.reverseOrder()).forEach(System.out::println);
-		listProds.stream().map(Producto::getNombre).sorted(Comparator.reverseOrder()).forEach(System.out::println);
+		listProds.stream()
+				.map(Producto::getNombre)
+				.sorted(Comparator.reverseOrder())
+				.forEach(System.out::println);
+		listProds.stream()
+				.map(Producto::getNombre)
+				.sorted(Comparator.reverseOrder())
+				.forEach(System.out::println);
 
 	}
 	
@@ -124,6 +130,10 @@ class TiendaApplicationTests {
 	void test8() {
 		var listFabs = fabRepo.findAll();
 		//TODO
+		listFabs.stream()
+				.map(Fabricante::getNombre)
+				.limit(5) // Limitar a los primeros 5 fabricantes
+				.forEach(System.out::println);
 	}
 	
 	/**
@@ -132,7 +142,15 @@ class TiendaApplicationTests {
 	@Test
 	void test9() {
 		var listFabs = fabRepo.findAll();
-		//TODO		
+		//TODO
+		var resultFabs = listFabs.stream()
+				.skip(3)
+				.limit(2)
+				.toList();
+
+		resultFabs.stream()
+				.map(Fabricante::getNombre)
+				.forEach(System.out::println);
 	}
 	
 	/**
