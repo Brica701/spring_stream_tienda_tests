@@ -515,20 +515,20 @@ Fabricante: Xiaomi
 					System.out.println("Fabricante: " + fabricante.getNombre());
 					System.out.println("             Productos:");
 
-					// Fetch the products associated with the manufacturer
+
 					var productos = prodRepo.findAll().stream()
 							.filter(producto -> producto.getFabricante().getNombre().equals(fabricante.getNombre()))
 							.map(Producto::getNombre)
 							.collect(Collectors.toList());
 
-					// Print each product or an empty line if none
+
 					if (productos.isEmpty()) {
 						System.out.println("             ");
 					} else {
 						productos.forEach(producto -> System.out.println("             \t" + producto));
 					}
 
-					// Print a blank line for spacing between manufacturers
+
 					System.out.println();
 				});
 	}
@@ -555,7 +555,7 @@ Fabricante: Xiaomi
 		var listProds = prodRepo.findAll();
 		//TODO
 		long totalProducts = listProds.stream()
-				.count(); // Counts the total number of products
+				.count();
 
 		System.out.println("Número total de productos: " + totalProducts);
 	}
@@ -569,9 +569,9 @@ Fabricante: Xiaomi
 		var listProds = prodRepo.findAll();
 		//TODO
 		long numberOfManufacturersWithProducts = listProds.stream()
-				.map(producto -> producto.getFabricante().getNombre()) // Get the manufacturer names
-				.distinct() // Keep only unique manufacturer names
-				.count(); // Count the distinct manufacturers
+				.map(producto -> producto.getFabricante().getNombre())
+				.distinct()
+				.count();
 
 		System.out.println("Número de fabricantes con productos: " + numberOfManufacturersWithProducts);
 	}
@@ -583,6 +583,11 @@ Fabricante: Xiaomi
 	void test32() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		double averagePrice = listProds.stream()
+				.mapToDouble(product -> product.getPrecio())
+				.average()
+				.orElse(0.0);
+		System.out.println("Media del precio de todos los productos: " + averagePrice);
 	}
 	
 	/**
@@ -592,6 +597,11 @@ Fabricante: Xiaomi
 	void test33() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		double lowestPrice = listProds.stream()
+				.mapToDouble(product -> product.getPrecio())
+				.min()
+				.orElse(0.0);
+		System.out.println("Precio más barato de todos los productos: " + lowestPrice);
 	}
 	
 	/**
@@ -600,7 +610,12 @@ Fabricante: Xiaomi
 	@Test
 	void test34() {
 		var listProds = prodRepo.findAll();
-		//TODO	
+		//TODO
+		double totalSumOfPrices = listProds.stream()
+				.mapToDouble(product -> product.getPrecio())
+				.sum();
+		System.out.println("Suma de los precios de todos los productos: " + totalSumOfPrices);
+
 	}
 	
 	/**
@@ -609,7 +624,11 @@ Fabricante: Xiaomi
 	@Test
 	void test35() {
 		var listProds = prodRepo.findAll();
-		//TODO		
+		//TODO
+		long asusProductCount = listProds.stream()
+				.filter(product -> "Asus".equals(product.getFabricante().getNombre()))
+				.count();
+		System.out.println("Número de productos del fabricante Asus: " + asusProductCount);
 	}
 	
 	/**
@@ -619,6 +638,12 @@ Fabricante: Xiaomi
 	void test36() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		double asusAveragePrice = listProds.stream()
+				.filter(product -> "Asus".equals(product.getFabricante().getNombre()))
+				.mapToDouble(product -> product.getPrecio())
+				.average()
+				.orElse(0.0);
+		System.out.println("Media del precio de los productos del fabricante Asus: " + asusAveragePrice);
 	}
 	
 	
@@ -630,6 +655,35 @@ Fabricante: Xiaomi
 	void test37() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		Double[] result = listProds.stream()
+				.filter(product -> "Crucial".equals(product.getFabricante().getNombre()))
+				.map(product -> product.getPrecio())
+				.reduce(new Double[]{Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0.0, 0.0},
+						(acc, price) -> {
+							acc[0] = Math.max(acc[0], price);
+							acc[1] = Math.min(acc[1], price);
+							acc[2] += price;
+							acc[3] += 1;
+							return acc;
+						},
+						(acc1, acc2) -> {
+							acc1[0] = Math.max(acc1[0], acc2[0]);
+							acc1[1] = Math.min(acc1[1], acc2[1]);
+							acc1[2] += acc2[2];
+							acc1[3] += acc2[3];
+							return acc1;
+						}
+				);
+
+		double maxPrice = result[0];
+		double minPrice = result[1];
+		double averagePrice = result[3] > 0 ? result[2] / result[3] : 0.0;
+		long totalProducts = result[3].longValue();
+
+		System.out.println("Precio máximo: " + maxPrice);
+		System.out.println("Precio mínimo: " + minPrice);
+		System.out.println("Precio medio: " + averagePrice);
+		System.out.println("Número total de productos: " + totalProducts);
 	}
 	
 	/**
@@ -656,6 +710,7 @@ Hewlett-Packard              2
 	void test38() {
 		var listFabs = fabRepo.findAll();
 		//TODO
+
 	}
 	
 	/**
