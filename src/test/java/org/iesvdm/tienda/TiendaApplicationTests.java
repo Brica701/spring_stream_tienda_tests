@@ -11,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @SpringBootTest
@@ -260,6 +262,11 @@ class TiendaApplicationTests {
 	void test17() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		Set<Integer> fabricanteCodes = Set.of(1, 3, 5);
+
+		listProds.stream()
+				.filter(producto -> fabricanteCodes.contains(producto.getFabricante().getCodigo()))
+				.forEach(producto -> System.out.println(producto.getNombre() + " - Fabricante: " + producto.getFabricante().getCodigo()));
 	}
 	
 	/**
@@ -269,6 +276,9 @@ class TiendaApplicationTests {
 	void test18() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+				.forEach(producto -> System.out.println(producto.getNombre() + " - Precio en céntimos: " + (int)(producto.getPrecio() * 100)));
+
 	}
 	
 	
@@ -279,7 +289,9 @@ class TiendaApplicationTests {
 	void test19() {
 		var listFabs = fabRepo.findAll();
 		//TODO
-
+		listFabs.stream()
+				.filter(fabricante -> fabricante.getNombre().startsWith("S"))
+				.forEach(fabricante -> System.out.println(fabricante.getNombre()));
 	}
 	
 	/**
@@ -289,9 +301,11 @@ class TiendaApplicationTests {
 	void test20() {
 		var listProds = prodRepo.findAll();
 		//TODO
-		prodRepo.findAll().stream()
-				.filter(p -> p.getNombre().contains("Potátil") || p.getNombre().contains("Potatil") )
-				.forEach(System.out::println);
+		var portableProducts = listProds.stream()
+				.filter(producto -> producto.getNombre().contains("Portátil"))
+				.collect(Collectors.toList());
+
+		portableProducts.forEach(producto -> System.out.println(producto.getNombre()));
 	}
 	
 	/**
@@ -301,6 +315,12 @@ class TiendaApplicationTests {
 	void test21() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		var monitorProducts = listProds.stream()
+				.filter(producto -> producto.getNombre().contains("Monitor") && producto.getPrecio() < 215)
+				.map(producto -> producto.getNombre())
+				.collect(Collectors.toList());
+
+		monitorProducts.forEach(System.out::println);
 	}
 	
 	/**
@@ -310,6 +330,11 @@ class TiendaApplicationTests {
 	void test22() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+				.filter(producto -> producto.getPrecio() >= 180)
+				.sorted(Comparator.comparingDouble(Producto::getPrecio).reversed()
+						.thenComparing(Producto::getNombre))
+				.forEach(producto -> System.out.println(producto.getNombre() + " - Precio: " + producto.getPrecio()));
 	}
 	
 	/**
@@ -320,6 +345,12 @@ class TiendaApplicationTests {
 	void test23() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		var productInfoList = listProds.stream()
+				.sorted(Comparator.comparing(producto -> producto.getFabricante().getNombre()))
+				.map(producto -> producto.getNombre() + " - Precio: " + producto.getPrecio() + "€ - Fabricante: " + producto.getFabricante().getNombre())
+				.collect(Collectors.toList());
+
+		productInfoList.forEach(System.out::println);
 	}
 	
 	/**
@@ -329,6 +360,14 @@ class TiendaApplicationTests {
 	void test24() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		listProds.stream()
+				.max(Comparator.comparingDouble(Producto::getPrecio))
+				.ifPresent(mostExpensiveProduct ->
+						System.out.println("Producto más caro: " + mostExpensiveProduct.getNombre() +
+								" - Precio: " + mostExpensiveProduct.getPrecio() + "€ - Fabricante: " +
+								mostExpensiveProduct.getFabricante().getNombre()));
+
+
 	}
 	
 	/**
@@ -337,7 +376,13 @@ class TiendaApplicationTests {
 	@Test
 	void test25() {
 		var listProds = prodRepo.findAll();
-		//TODO	
+		//TODO
+		var crucialProducts = listProds.stream()
+				.filter(producto -> "Crucial".equals(producto.getFabricante().getNombre()) && producto.getPrecio() > 200)
+				.collect(Collectors.toList());
+
+		crucialProducts.forEach(producto ->
+				System.out.println("Producto: " + producto.getNombre() + " - Precio: " + producto.getPrecio() + "€"));
 	}
 	
 	/**
@@ -347,6 +392,14 @@ class TiendaApplicationTests {
 	void test26() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		Set<String> fabricantes = Set.of("Asus", "Hewlett-Packard", "Seagate");
+
+		var selectedProducts = listProds.stream()
+				.filter(producto -> fabricantes.contains(producto.getFabricante().getNombre()))
+				.collect(Collectors.toList());
+
+		selectedProducts.forEach(producto ->
+				System.out.println("Producto: " + producto.getNombre() + " - Fabricante: " + producto.getFabricante().getNombre()));
 	}
 	
 	/**
@@ -367,6 +420,36 @@ Monitor 27 LED Full HD |199.25190000000003|Asus
 	void test27() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		// Filter, sort and collect products
+		var filteredProducts = listProds.stream()
+				.filter(producto -> producto.getPrecio() >= 180)
+				.sorted(Comparator.comparingDouble(Producto::getPrecio).reversed()
+						.thenComparing(Producto::getNombre))
+				.collect(Collectors.toList());
+
+		// Determine the maximum lengths for each column
+		int maxNameLength = filteredProducts.stream()
+				.mapToInt(producto -> producto.getNombre().length())
+				.max().orElse(0);
+
+		int maxPriceLength = filteredProducts.stream()
+				.mapToInt(producto -> String.valueOf(producto.getPrecio()).length())
+				.max().orElse(0);
+
+		int maxFabricanteLength = filteredProducts.stream()
+				.mapToInt(producto -> producto.getFabricante().getNombre().length())
+				.max().orElse(0);
+
+		// Print the header
+		System.out.printf("%-" + (maxNameLength + 2) + "s %" + (maxPriceLength + 2) + "s %-" + (maxFabricanteLength + 2) + "s%n",
+				"Producto", "Precio", "Fabricante");
+		System.out.println("-".repeat(maxNameLength + maxPriceLength + maxFabricanteLength + 6));
+
+		// Print the products in a formatted manner
+		for (var producto : filteredProducts) {
+			System.out.printf("%-" + (maxNameLength + 2) + "s %" + (maxPriceLength + 2) + ".2f %-" + (maxFabricanteLength + 2) + "s%n",
+					producto.getNombre(), producto.getPrecio(), producto.getFabricante().getNombre());
+		}
 	}
 	
 	/**
@@ -427,6 +510,27 @@ Fabricante: Xiaomi
 	void test28() {
 		var listFabs = fabRepo.findAll();
 		//TODO
+		listFabs.stream()
+				.forEach(fabricante -> {
+					System.out.println("Fabricante: " + fabricante.getNombre());
+					System.out.println("             Productos:");
+
+					// Fetch the products associated with the manufacturer
+					var productos = prodRepo.findAll().stream()
+							.filter(producto -> producto.getFabricante().getNombre().equals(fabricante.getNombre()))
+							.map(Producto::getNombre)
+							.collect(Collectors.toList());
+
+					// Print each product or an empty line if none
+					if (productos.isEmpty()) {
+						System.out.println("             ");
+					} else {
+						productos.forEach(producto -> System.out.println("             \t" + producto));
+					}
+
+					// Print a blank line for spacing between manufacturers
+					System.out.println();
+				});
 	}
 	
 	/**
@@ -435,7 +539,12 @@ Fabricante: Xiaomi
 	@Test
 	void test29() {
 		var listFabs = fabRepo.findAll();
+		var listProds = prodRepo.findAll();
 		//TODO
+		listFabs.stream()
+				.filter(fabricante -> listProds.stream()
+						.noneMatch(producto -> producto.getFabricante().getNombre().equals(fabricante.getNombre())))
+				.forEach(fabricante -> System.out.println("Fabricante sin productos: " + fabricante.getNombre()));
 	}
 	
 	/**
@@ -445,6 +554,10 @@ Fabricante: Xiaomi
 	void test30() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		long totalProducts = listProds.stream()
+				.count(); // Counts the total number of products
+
+		System.out.println("Número total de productos: " + totalProducts);
 	}
 
 	
@@ -455,6 +568,12 @@ Fabricante: Xiaomi
 	void test31() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		long numberOfManufacturersWithProducts = listProds.stream()
+				.map(producto -> producto.getFabricante().getNombre()) // Get the manufacturer names
+				.distinct() // Keep only unique manufacturer names
+				.count(); // Count the distinct manufacturers
+
+		System.out.println("Número de fabricantes con productos: " + numberOfManufacturersWithProducts);
 	}
 	
 	/**
