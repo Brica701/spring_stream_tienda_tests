@@ -656,7 +656,7 @@ Fabricante: Xiaomi
 		var listProds = prodRepo.findAll();
 		//TODO
 
-
+	}
 		/**
 		 * 38. Muestra el número total de productos que tiene cada uno de los fabricantes.
 		 * El listado también debe incluir los fabricantes que no tienen ningún producto.
