@@ -120,6 +120,7 @@ WHERE codigo NOT IN (SELECT DISTINCT codigo_fabricante FROM producto);
 
 SELECT COUNT(*) AS total_productos FROM producto;
 
+
 SELECT COUNT(DISTINCT codigo_fabricante) AS fabricantes_con_productos
 FROM producto;
 
@@ -149,6 +150,7 @@ SELECT
     COUNT(*) AS total_productos
 FROM producto
 WHERE codigo_fabricante = (SELECT codigo FROM fabricante WHERE nombre = 'Crucial');
+
 
 SELECT f.nombre AS fabricante, COUNT(p.codigo) AS productos
 FROM fabricante f
