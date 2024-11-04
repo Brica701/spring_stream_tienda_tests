@@ -655,8 +655,29 @@ Fabricante: Xiaomi
 	void test37() {
 		var listProds = prodRepo.findAll();
 		//TODO
+		var result = listProds.stream()
+				.filter(product -> product.getFabricante()
+						.getNombre().equalsIgnoreCase("Crucial"))
+				.map(product -> new Double[]{
+								product.getPrecio(),
+								product.getPrecio(),
+								product.getPrecio(),
+						0.0})
+				.reduce((doubles, doubles2) -> new Double[]{
+						Math.min(doubles[0],doubles2[0]),
+						Math.max(doubles[1],doubles2[1]),
+						doubles[2]+doubles2[2],
+						doubles[3]++})
+				.orElse(new Double[]{});
+		Double media = result[3]>0 ? result[2]/result[3] : 0.0;
+		System.out.println("Valor minimo: " + result[0]);
+		System.out.println("Valor maximo: " + result[1]);
+		System.out.println("Precio medio: " + media);
+		System.out.println("Total prductos: " + result[3]);
+
 
 	}
+
 		/**
 		 * 38. Muestra el número total de productos que tiene cada uno de los fabricantes.
 		 * El listado también debe incluir los fabricantes que no tienen ningún producto.
