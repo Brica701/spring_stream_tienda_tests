@@ -655,142 +655,113 @@ Fabricante: Xiaomi
 	void test37() {
 		var listProds = prodRepo.findAll();
 		//TODO
-		Double[] result = listProds.stream()
-				.filter(product -> "Crucial".equals(product.getFabricante().getNombre()))
-				.map(product -> product.getPrecio())
-				.reduce(new Double[]{Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0.0, 0.0},
-						(acc, price) -> {
-							acc[0] = Math.max(acc[0], price);
-							acc[1] = Math.min(acc[1], price);
-							acc[2] += price;
-							acc[3] += 1;
-							return acc;
-						},
-						(acc1, acc2) -> {
-							acc1[0] = Math.max(acc1[0], acc2[0]);
-							acc1[1] = Math.min(acc1[1], acc2[1]);
-							acc1[2] += acc2[2];
-							acc1[3] += acc2[3];
-							return acc1;
-						}
-				);
 
-		double maxPrice = result[0];
-		double minPrice = result[1];
-		double averagePrice = result[3] > 0 ? result[2] / result[3] : 0.0;
-		long totalProducts = result[3].longValue();
 
-		System.out.println("Precio máximo: " + maxPrice);
-		System.out.println("Precio mínimo: " + minPrice);
-		System.out.println("Precio medio: " + averagePrice);
-		System.out.println("Número total de productos: " + totalProducts);
-	}
-	
-	/**
-	 * 38. Muestra el número total de productos que tiene cada uno de los fabricantes. 
-	 * El listado también debe incluir los fabricantes que no tienen ningún producto. 
-	 * El resultado mostrará dos columnas, una con el nombre del fabricante y otra con el número de productos que tiene. 
-	 * Ordene el resultado descendentemente por el número de productos. Utiliza String.format para la alineación de los nombres y las cantidades.
-	 * La salida debe queda como sigue:
-	 
-     Fabricante     #Productos
--*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-           Asus              2
-         Lenovo              2
-Hewlett-Packard              2
-        Samsung              1
-        Seagate              1
-        Crucial              2
-       Gigabyte              1
-         Huawei              0
-         Xiaomi              0
+		/**
+		 * 38. Muestra el número total de productos que tiene cada uno de los fabricantes.
+		 * El listado también debe incluir los fabricantes que no tienen ningún producto.
+		 * El resultado mostrará dos columnas, una con el nombre del fabricante y otra con el número de productos que tiene.
+		 * Ordene el resultado descendentemente por el número de productos. Utiliza String.format para la alineación de los nombres y las cantidades.
+		 * La salida debe queda como sigue:
 
-	 */
-	@Test
-	void test38() {
-		var listFabs = fabRepo.findAll();
-		//TODO
+		 Fabricante     #Productos
+		 -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+		 Asus              2
+		 Lenovo              2
+		 Hewlett-Packard              2
+		 Samsung              1
+		 Seagate              1
+		 Crucial              2
+		 Gigabyte              1
+		 Huawei              0
+		 Xiaomi              0
+
+		 */
+		@Test
+		void test38 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+
+		}
+
+		/**
+		 * 39. Muestra el precio máximo, precio mínimo y precio medio de los productos de cada uno de los fabricantes.
+		 * El resultado mostrará el nombre del fabricante junto con los datos que se solicitan. Realízalo en 1 solo stream principal. Utiliza reduce con Double[] como "acumulador".
+		 * Deben aparecer los fabricantes que no tienen productos.
+		 */
+		@Test
+		void test39 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+		}
+
+		/**
+		 * 40. Muestra el precio máximo, precio mínimo, precio medio y el número total de productos de los fabricantes que tienen un precio medio superior a 200€.
+		 * No es necesario mostrar el nombre del fabricante, con el código del fabricante es suficiente.
+		 */
+		@Test
+		void test40 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+		}
+
+		/**
+		 * 41. Devuelve un listado con los nombres de los fabricantes que tienen 2 o más productos.
+		 */
+		@Test
+		void test41 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+		}
+
+		/**
+		 * 42. Devuelve un listado con los nombres de los fabricantes y el número de productos que tiene cada uno con un precio superior o igual a 220 €.
+		 * Ordenado de mayor a menor número de productos.
+		 */
+		@Test
+		void test42 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+		}
+
+		/**
+		 * 43.Devuelve un listado con los nombres de los fabricantes donde la suma del precio de todos sus productos es superior a 1000 €
+		 */
+		@Test
+		void test43 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+		}
+
+		/**
+		 * 44. Devuelve un listado con los nombres de los fabricantes donde la suma del precio de todos sus productos es superior a 1000 €
+		 * Ordenado de menor a mayor por cuantía de precio de los productos.
+		 */
+		@Test
+		void test44 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+		}
+
+		/**
+		 * 45. Devuelve un listado con el nombre del producto más caro que tiene cada fabricante.
+		 * El resultado debe tener tres columnas: nombre del producto, precio y nombre del fabricante.
+		 * El resultado tiene que estar ordenado alfabéticamente de menor a mayor por el nombre del fabricante.
+		 */
+		@Test
+		void test45 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+		}
+
+		/**
+		 * 46. Devuelve un listado de todos los productos que tienen un precio mayor o igual a la media de todos los productos de su mismo fabricante.
+		 * Se ordenará por fabricante en orden alfabético ascendente y los productos de cada fabricante tendrán que estar ordenados por precio descendente.
+		 */
+		@Test
+		void test46 () {
+			var listFabs = fabRepo.findAll();
+			//TODO
+		}
 
 	}
-	
-	/**
-	 * 39. Muestra el precio máximo, precio mínimo y precio medio de los productos de cada uno de los fabricantes. 
-	 * El resultado mostrará el nombre del fabricante junto con los datos que se solicitan. Realízalo en 1 solo stream principal. Utiliza reduce con Double[] como "acumulador".
-	 * Deben aparecer los fabricantes que no tienen productos.
-	 */
-	@Test
-	void test39() {
-		var listFabs = fabRepo.findAll();
-		//TODO
-	}
-	
-	/**
-	 * 40. Muestra el precio máximo, precio mínimo, precio medio y el número total de productos de los fabricantes que tienen un precio medio superior a 200€. 
-	 * No es necesario mostrar el nombre del fabricante, con el código del fabricante es suficiente.
-	 */
-	@Test
-	void test40() {
-		var listFabs = fabRepo.findAll();
-		//TODO
-	}
-	
-	/**
-	 * 41. Devuelve un listado con los nombres de los fabricantes que tienen 2 o más productos.
-	 */
-	@Test
-	void test41() {
-		var listFabs = fabRepo.findAll();
-		//TODO
-	}
-	
-	/**
-	 * 42. Devuelve un listado con los nombres de los fabricantes y el número de productos que tiene cada uno con un precio superior o igual a 220 €. 
-	 * Ordenado de mayor a menor número de productos.
-	 */
-	@Test
-	void test42() {
-		var listFabs = fabRepo.findAll();
-		//TODO
-	}
-	
-	/**
-	 * 43.Devuelve un listado con los nombres de los fabricantes donde la suma del precio de todos sus productos es superior a 1000 €
-	 */
-	@Test
-	void test43() {
-		var listFabs = fabRepo.findAll();
-		//TODO
-	}
-	
-	/**
-	 * 44. Devuelve un listado con los nombres de los fabricantes donde la suma del precio de todos sus productos es superior a 1000 €
-	 * Ordenado de menor a mayor por cuantía de precio de los productos.
-	 */
-	@Test
-	void test44() {
-		var listFabs = fabRepo.findAll();
-		//TODO	
-	}
-	
-	/**
-	 * 45. Devuelve un listado con el nombre del producto más caro que tiene cada fabricante. 
-	 * El resultado debe tener tres columnas: nombre del producto, precio y nombre del fabricante. 
-	 * El resultado tiene que estar ordenado alfabéticamente de menor a mayor por el nombre del fabricante.
-	 */
-	@Test
-	void test45() {
-		var listFabs = fabRepo.findAll();
-		//TODO
-	}
-	
-	/**
-	 * 46. Devuelve un listado de todos los productos que tienen un precio mayor o igual a la media de todos los productos de su mismo fabricante.
-	 * Se ordenará por fabricante en orden alfabético ascendente y los productos de cada fabricante tendrán que estar ordenados por precio descendente.
-	 */
-	@Test
-	void test46() {
-		var listFabs = fabRepo.findAll();
-		//TODO
-	}
-
-}
